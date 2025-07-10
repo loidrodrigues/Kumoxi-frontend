@@ -1,11 +1,23 @@
 import { Button } from "@/components/ui/button"
 import ProjectCard from "./components/projectCard"
-
+import axios from "axios"
+import { useEffect, useState } from "react"
 function App() {
+
+  const [projects, setProjects] = useState([])
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/projects").then(response => setProjects(response.data)).catch(error => console.log(error))
+    
+  }, [])
+
   return (
     <div className="p-6 max-wxl mx-auto space-y-4">
-      <ProjectCard title="App de Saúde Mental" description="Um app focado em bem-estar emocional dos jovens angolanos." data="08/07/2025"  autor="Loid Padre"/>
-      <ProjectCard title="Mapa das Oportunidades" description="Plataforma que mostra empregos, bolsas e cursos em Angola." data="07/07/2025"  autor="Maria da Silva"/>
+      {
+        projects.map((data, index) =>(
+          <ProjectCard key={index} title={data.title} description={data.description} data={data.data}  autor={data.autor}/>
+        ))
+      }
     </div>
   )
 }
