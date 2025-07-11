@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="p-6 max-wxl mx-auto space-y-4">
       <Link to="/cadastro">
-        <Button variant={"outline"} className="cursor-pointer">
+        <Button variant={"outline"} className="cursor-pointer mb-6">
           Cadastrar Projetos
         </Button>
       </Link>

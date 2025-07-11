@@ -1,5 +1,7 @@
 import { Button } from "../components/ui/button";
 import { Textarea } from "../components/ui/textarea";
+import { useState } from "react";
+import axios from "axios";
 import {
   Card,
   CardAction,
@@ -8,10 +10,26 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 export default function Cadastro() {
+  const [title, setTitle] = useState("");
+  const [autor, setAutor] = useState("");
+  const [data, setData] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newProject = {
+      title,
+      autor,
+      data,
+      description,
+    };
+    axios.post("http://localhost:3000/api/projects", newProject);
+    console.log("projecto cadastrado com sucesso");
+  };
   return (
     <div className="h-screen flex items-center justify-center">
       <Card className="w-full max-w-sm">
@@ -31,6 +49,7 @@ export default function Cadastro() {
                   type="text"
                   placeholder="Sistema de gestao de pessoas"
                   required
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
@@ -40,21 +59,34 @@ export default function Cadastro() {
                   type="text"
                   placeholder="Jose da Silva"
                   required
+                  onChange={(e) => setAutor(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="date">Data</Label>
-                <Input id="date" type="date" required />
+                <Input
+                  id="date"
+                  type="date"
+                  required
+                  onChange={(e) => setData(e.target.value)}
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="description">Descricão</Label>
-                <Textarea placeholder="Descricao do seu projeto" />
+                <Textarea
+                  placeholder="Descricao do seu projeto"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
               </div>
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button variant="outline" className="w-full cursor-pointer">
+          <Button
+            variant="outline"
+            className="w-full cursor-pointer"
+            onClick={handleSubmit}
+          >
             Cadastrar Projeto
           </Button>
         </CardFooter>
