@@ -1,6 +1,8 @@
 import axios from "axios";
 import ProjectCard from "../components/projectCard";
 import { useEffect, useState } from "react";
+import { Button } from "../components/ui/button";
+import { Link } from "react-router-dom";
 export default function Home() {
   const [projects, setProjects] = useState([]);
   useEffect(() => {
@@ -11,6 +13,11 @@ export default function Home() {
   }, []);
   return (
     <div className="p-6 max-wxl mx-auto space-y-4">
+      <Link to="/cadastro">
+        <Button variant={"outline"} className="cursor-pointer">
+          Cadastrar Projetos
+        </Button>
+      </Link>
       {projects.map((data, index) => (
         <ProjectCard
           key={index}
