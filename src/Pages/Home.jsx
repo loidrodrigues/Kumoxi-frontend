@@ -16,7 +16,7 @@ export default function Home() {
       .catch((error) => console.log(error));
   }, []);
   return (
-    <div className="p-6 max-wxl mx-auto space-y-4">
+    <div className="p-6 max-w-[1500px] mx-auto space-y-4">
       <Link to="/cadastro">
         <Button variant={"outline"} className="cursor-pointer mb-6">
           Cadastrar Projetos
