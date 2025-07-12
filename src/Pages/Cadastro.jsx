@@ -1,6 +1,10 @@
 import { Button } from "../components/ui/button";
+import { Toaster } from "../components/ui/sonner";
+
+import { toast } from "sonner";
 import { Textarea } from "../components/ui/textarea";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Card,
@@ -18,7 +22,7 @@ export default function Cadastro() {
   const [autor, setAutor] = useState("");
   const [data, setData] = useState("");
   const [description, setDescription] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const newProject = {
@@ -27,11 +31,22 @@ export default function Cadastro() {
       data,
       description,
     };
-    axios.post("http://localhost:3000/api/projects", newProject);
-    console.log("projecto cadastrado com sucesso");
+    axios
+      .post("http://localhost:3000/api/projects", newProject)
+      .then(() => {
+        toast("Projeto cadastrado com sucesso", {
+          description: "Vamos redirecionar para a pagina principal",
+          position: "top-center",
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <div className="h-screen flex items-center justify-center">
+      <Toaster />
       <Card className="w-full max-w-sm">
         <CardHeader className="mb-2">
           <CardTitle>Cadastrar um projeto</CardTitle>
@@ -74,6 +89,7 @@ export default function Cadastro() {
               <div className="grid gap-2">
                 <Label htmlFor="description">Descricão</Label>
                 <Textarea
+                  required
                   placeholder="Descricao do seu projeto"
                   onChange={(e) => setDescription(e.target.value)}
                 />

@@ -5,10 +5,13 @@ import { Button } from "../components/ui/button";
 import { Link } from "react-router-dom";
 export default function Home() {
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/projects")
-      .then((response) => setProjects(response.data))
+      .then((response) => {
+        setProjects(response.data), setLoading(false);
+      })
       .catch((error) => console.log(error));
   }, []);
   return (
@@ -18,15 +21,22 @@ export default function Home() {
           Cadastrar Projetos
         </Button>
       </Link>
-      {projects.map((data, index) => (
-        <ProjectCard
-          key={index}
-          title={data.title}
-          description={data.description}
-          data={data.data}
-          autor={data.autor}
-        />
-      ))}
+      {loading ? (
+        <p className="text-center"> Carregando...</p>
+      ) : (
+        projects
+          .slice()
+          .reverse()
+          .map((data, index) => (
+            <ProjectCard
+              key={index}
+              title={data.title}
+              description={data.description}
+              data={data.data}
+              autor={data.autor}
+            />
+          ))
+      )}
     </div>
   );
 }
