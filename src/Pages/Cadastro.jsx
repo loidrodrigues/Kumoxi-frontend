@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Textarea } from "../components/ui/textarea";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import {
   Card,
   CardAction,
@@ -25,24 +25,33 @@ export default function Cadastro() {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newProject = {
-      title,
-      autor,
-      data,
-      description,
-    };
-    axios
-      .post("http://localhost:3000/api/projects", newProject)
-      .then(() => {
-        toast("Projeto cadastrado com sucesso", {
-          description: "Vamos redirecionar para a pagina principal",
-          position: "top-center",
-        });
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      })
-      .catch((error) => console.log(error));
+
+    if (title === "" || autor === "" || data === "" || description === "") {
+      toast.error("Por favor preencha todos os campos", {
+        position: "top-center",
+        className: "text-white bg-red-500",
+      });
+    } else {
+      const newProject = {
+        title,
+        autor,
+        data,
+        description,
+      };
+
+      api
+        .post("/projects", newProject)
+        .then(() => {
+          toast.success("Projeto cadastrado com sucesso", {
+            description: "Vamos redirecionar para a pagina principal",
+            position: "top-center",
+          });
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        })
+        .catch((error) => console.log(error));
+    }
   };
   return (
     <div className="h-screen flex items-center justify-center">

@@ -1,14 +1,14 @@
-import axios from "axios";
 import ProjectCard from "../components/projectCard";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { Link } from "react-router-dom";
+import api from "../services/api";
 export default function Home() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/projects")
+    api
+      .get("/projects")
       .then((response) => {
         setProjects(response.data), setLoading(false);
       })
