@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { Link } from "react-router-dom";
 import api from "../services/api";
+import Destaques from "../components/destaques";
 export default function Home() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,22 +22,29 @@ export default function Home() {
           Cadastrar Projetos
         </Button>
       </Link>
-      {loading ? (
-        <p className="text-center"> Carregando...</p>
-      ) : (
-        projects
-          .slice()
-          .reverse()
-          .map((data, index) => (
-            <ProjectCard
-              key={index}
-              title={data.title}
-              description={data.description}
-              data={data.data}
-              autor={data.autor}
-            />
-          ))
-      )}
+      <div className="flex gap-4">
+        <div className="flex-1 flex-col gap-4 space-y-6">
+          {loading ? (
+            <p className="text-center"> Carregando...</p>
+          ) : (
+            projects
+              .slice()
+              .reverse()
+              .map((data, index) => (
+                <ProjectCard
+                  key={index}
+                  title={data.title}
+                  description={data.description}
+                  data={data.data}
+                  autor={data.autor}
+                />
+              ))
+          )}
+        </div>
+        <div className="w-[500px]">
+          <Destaques />
+        </div>
+      </div>
     </div>
   );
 }
